@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
 
@@ -20,14 +21,12 @@
 
     <title>USTD — Digital Token on Ethereum</title>
 
-    <!-- Ícone do token -->
     <link
         rel="icon"
         type="image/svg+xml"
         href="./ustd-icon.svg"
     >
 
-    <!-- CSS -->
     <link
         rel="stylesheet"
         href="./style.css"
@@ -36,14 +35,323 @@
 
 <body>
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-    <header class="site-header">
+<header class="site-header">
 
-        <div class="container header-content">
+    <div class="container header-content">
 
-            <a href="./" class="brand">
+        <a href="./" class="brand">
+
+            <img
+                src="./ustd-icon.svg"
+                alt="USTD"
+                class="brand-icon"
+            >
+
+            <div>
+                <strong>USTD</strong>
+                <span>Digital Token</span>
+            </div>
+
+        </a>
+
+        <div class="network-badge">
+            Ethereum Mainnet
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<section class="hero">
+
+    <div class="container hero-grid">
+
+        <div class="hero-content">
+
+            <div class="eyebrow">
+                ETHEREUM MAINNET
+            </div>
+
+            <h1>USTD</h1>
+
+            <h2>
+                Digital Token on Ethereum
+            </h2>
+
+            <p class="hero-description">
+                Informações do contrato, endereço e
+                integração com carteira para o token
+                USTD na rede Ethereum.
+            </p>
+
+            <div class="hero-actions">
+
+                <a
+                    href="#contrato"
+                    class="btn btn-primary"
+                >
+                    Ver contrato
+                </a>
+
+                <a
+                    href="https://etherscan.io/token/0x4644E1113FE1a6bA831D85cc4772b3D0c23DE655"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-secondary"
+                >
+                    Etherscan ↗
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="token-card">
+
+            <div class="token-card-top">
+
                 <img
                     src="./ustd-icon.svg"
-                    alt="USTD
+                    alt="Logo USTD"
+                    class="token-icon"
+                >
+
+                <div>
+
+                    <span class="token-label">
+                        TOKEN
+                    </span>
+
+                    <h3>USTD</h3>
+
+                    <p>
+                        ERC-20 • Ethereum
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="mainnet-status">
+
+                <span class="status-dot"></span>
+
+                MAINNET
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section
+    class="contract-section"
+    id="contrato"
+>
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>
+                SMART CONTRACT
+            </span>
+
+            <h2>
+                Endereço do contrato
+            </h2>
+
+        </div>
+
+
+        <div class="contract-box">
+
+            <code id="contractAddress">
+                0x4644E1113FE1a6bA831D85cc4772b3D0c23DE655
+            </code>
+
+            <button
+                type="button"
+                id="copyBtn"
+                class="copy-btn"
+                aria-label="Copiar endereço do contrato"
+            >
+                ⧉
+            </button>
+
+        </div>
+
+        <p
+            id="copyStatus"
+            class="action-status"
+            aria-live="polite"
+        ></p>
+
+    </div>
+
+</section>
+
+
+<section class="details-section">
+
+    <div class="container">
+
+        <div class="details-grid">
+
+            <div class="detail-item">
+                <span>REDE</span>
+                <strong>Ethereum Mainnet</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>PADRÃO</span>
+                <strong>ERC-20</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>SÍMBOLO</span>
+                <strong>USTD</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>DECIMAIS</span>
+                <strong>18</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="wallet-section">
+
+    <div class="container">
+
+        <div class="wallet-card">
+
+            <div class="wallet-content">
+
+                <span class="section-label">
+                    CARTEIRA
+                </span>
+
+                <h2>
+                    Adicione o USTD à sua carteira
+                </h2>
+
+                <p>
+                    Se sua carteira Ethereum oferecer
+                    suporte à integração de tokens,
+                    você poderá solicitar a adição
+                    automática do USTD.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                id="addWalletBtn"
+                class="btn btn-wallet"
+            >
+                🦊 Adicionar USTD à carteira
+            </button>
+
+            <p
+                id="walletStatus"
+                class="action-status"
+                aria-live="polite"
+            ></p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="links-section">
+
+    <div class="container">
+
+        <div class="links-grid">
+
+            <a
+                href="https://etherscan.io/token/0x4644E1113FE1a6bA831D85cc4772b3D0c23DE655"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="external-link"
+            >
+                <span>Etherscan</span>
+                <strong>Ver contrato ↗</strong>
+            </a>
+
+
+            <button
+                type="button"
+                class="external-link wallet-copy"
+                id="copyWalletBtn"
+            >
+                <span>Carteira</span>
+                <strong>Copiar endereço ↗</strong>
+            </button>
+
+        </div>
+
+        <p
+            id="walletCopyStatus"
+            class="action-status"
+            aria-live="polite"
+        ></p>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="container footer-content">
+
+        <div class="footer-brand">
+
+            <img
+                src="./ustd-icon.svg"
+                alt="USTD"
+            >
+
+            <div>
+
+                <strong>USTD</strong>
+
+                <span>
+                    Digital Token on Ethereum
+                </span>
+
+            </div>
+
+        </div>
+
+        <p>
+            USTD • Ethereum Mainnet • ERC-20
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script src="./script.js"></script>
+
+</body>
+</html>
