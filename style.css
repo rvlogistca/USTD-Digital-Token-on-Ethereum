@@ -5,6 +5,7 @@
 
     --green: #0b6b4f;
     --green-light: #18a77a;
+    --green-bright: #20d59f;
 
     --gold: #d8b45a;
     --gold-light: #f0d98a;
@@ -14,14 +15,10 @@
 
     --border: rgba(216, 180, 90, 0.22);
 
-    --shadow:
-        0 25px 70px rgba(0, 0, 0, 0.45);
+    --shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+
+    --radius: 24px;
 }
-
-
-/* =========================
-   RESET
-========================= */
 
 * {
     margin: 0;
@@ -38,27 +35,29 @@ body {
 
     font-family:
         Inter,
-        Arial,
-        Helvetica,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
         sans-serif;
 
     color: var(--text);
 
     background:
         radial-gradient(
-            circle at top right,
-            rgba(11, 107, 79, 0.28),
-            transparent 35%
+            circle at 10% 10%,
+            rgba(11, 107, 79, 0.24),
+            transparent 30%
         ),
         radial-gradient(
-            circle at bottom left,
-            rgba(216, 180, 90, 0.08),
-            transparent 35%
+            circle at 90% 20%,
+            rgba(216, 180, 90, 0.09),
+            transparent 28%
         ),
         linear-gradient(
             135deg,
             #030806,
-            #071510,
+            var(--bg-secondary),
             #030806
         );
 
@@ -74,44 +73,29 @@ button {
     font: inherit;
 }
 
-
-/* =========================
-   CONTAINER
-========================= */
-
 .container {
-    width: min(
-        1120px,
-        calc(100% - 40px)
-    );
-
+    width: min(1120px, calc(100% - 40px));
     margin: 0 auto;
 }
 
 
-/* =========================
-   HEADER
-========================= */
+/* ================= HEADER ================= */
 
 .site-header {
-    padding: 22px 0;
-
-    border-bottom:
-        1px solid rgba(255, 255, 255, 0.06);
-
-    background:
-        rgba(3, 8, 6, 0.78);
-
-    backdrop-filter: blur(16px);
-
     position: sticky;
     top: 0;
     z-index: 100;
+
+    background: rgba(3, 8, 6, 0.82);
+    backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid rgba(216, 180, 90, 0.12);
 }
 
 .header-content {
-    display: flex;
+    min-height: 78px;
 
+    display: flex;
     align-items: center;
     justify-content: space-between;
 
@@ -120,70 +104,81 @@ button {
 
 .brand {
     display: flex;
-
     align-items: center;
-
-    gap: 12px;
+    gap: 13px;
 }
 
 .brand-icon {
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
 
     object-fit: contain;
 
-    border-radius: 50%;
+    filter:
+        drop-shadow(0 5px 16px rgba(0, 0, 0, 0.45));
 }
 
-.brand strong {
-    display: block;
-
-    font-size: 20px;
-
-    letter-spacing: 1px;
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
 }
 
-.brand span {
-    display: block;
+.brand-text strong {
+    font-size: 1.2rem;
+    letter-spacing: 0.12em;
+}
 
-    margin-top: 2px;
+.brand-text span {
+    margin-top: 5px;
 
     color: var(--muted);
 
-    font-size: 12px;
-}
-
-.network-badge {
-    padding: 9px 14px;
-
-    border:
-        1px solid rgba(24, 167, 122, 0.35);
-
-    border-radius: 999px;
-
-    color: #b8f1dc;
-
-    background:
-        rgba(11, 107, 79, 0.16);
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.8px;
-
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
+.network-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
-/* =========================
-   HERO
-========================= */
+    padding: 9px 14px;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    background: rgba(8, 30, 23, 0.65);
+
+    color: var(--muted);
+
+    font-size: 0.78rem;
+}
+
+.network-dot,
+.status-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: var(--green-bright);
+
+    box-shadow:
+        0 0 0 4px rgba(32, 213, 159, 0.1),
+        0 0 14px rgba(32, 213, 159, 0.8);
+}
+
+
+/* ================= HERO ================= */
 
 .hero {
-    padding: 100px 0 80px;
-
     position: relative;
+
+    padding: 100px 0 90px;
+
+    overflow: hidden;
 }
 
 .hero::before {
@@ -194,15 +189,17 @@ button {
     width: 500px;
     height: 500px;
 
-    top: -200px;
-    right: -200px;
+    top: -220px;
+    right: -160px;
 
     border-radius: 50%;
 
     background:
-        rgba(11, 107, 79, 0.12);
-
-    filter: blur(80px);
+        radial-gradient(
+            circle,
+            rgba(216, 180, 90, 0.13),
+            transparent 68%
+        );
 
     pointer-events: none;
 }
@@ -211,119 +208,94 @@ button {
     display: grid;
 
     grid-template-columns:
-        1.15fr 0.85fr;
+        minmax(0, 1.2fr)
+        minmax(320px, 0.8fr);
 
     align-items: center;
 
     gap: 70px;
-
-    position: relative;
-    z-index: 1;
-}
-
-.hero-content {
-    min-width: 0;
 }
 
 .eyebrow {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
 
     margin-bottom: 18px;
 
     color: var(--gold-light);
 
-    font-size: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
 
-    font-weight: 800;
-
-    letter-spacing: 2px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
 }
 
 .hero h1 {
-    margin-bottom: 8px;
+    max-width: 700px;
 
     font-size:
-        clamp(64px, 10vw, 112px);
+        clamp(3rem, 8vw, 6.2rem);
 
-    line-height: 0.88;
+    line-height: 0.9;
 
-    letter-spacing: -5px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #fff7d4,
-            var(--gold),
-            #a87a24
-        );
-
-    -webkit-background-clip: text;
-    background-clip: text;
-
-    color: transparent;
+    letter-spacing: -0.05em;
 }
 
-.hero h2 {
-    margin-bottom: 22px;
+.hero h1 span {
+    display: block;
+
+    margin-top: 22px;
+
+    max-width: 560px;
 
     color: var(--gold-light);
 
     font-size:
-        clamp(22px, 4vw, 34px);
+        clamp(1.15rem, 2.5vw, 1.7rem);
 
-    font-weight: 500;
+    line-height: 1.25;
 
-    line-height: 1.2;
+    letter-spacing: 0.02em;
 }
 
 .hero-description {
-    max-width: 620px;
+    max-width: 650px;
+
+    margin: 28px 0;
 
     color: var(--muted);
 
-    font-size: 17px;
-
+    font-size: 1.05rem;
     line-height: 1.8;
 }
 
 .hero-actions {
     display: flex;
-
     flex-wrap: wrap;
 
-    gap: 14px;
-
-    margin-top: 32px;
+    gap: 13px;
 }
 
-
-/* =========================
-   BOTÕES
-========================= */
-
 .btn {
-    display: inline-flex;
+    min-height: 50px;
 
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    min-height: 50px;
+    padding: 0 22px;
 
-    padding: 0 24px;
-
-    border:
-        1px solid transparent;
-
-    border-radius: 12px;
+    border: 1px solid transparent;
+    border-radius: 999px;
 
     cursor: pointer;
 
-    font-weight: 800;
+    font-weight: 700;
 
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
-        border-color 0.2s ease,
         background 0.2s ease;
 }
 
@@ -331,13 +303,7 @@ button {
     transform: translateY(-2px);
 }
 
-.btn:active {
-    transform: translateY(0);
-}
-
 .btn-primary {
-    color: #03120d;
-
     background:
         linear-gradient(
             135deg,
@@ -345,75 +311,54 @@ button {
             var(--gold)
         );
 
-    box-shadow:
-        0 12px 35px rgba(216, 180, 90, 0.18);
-}
+    color: #171006;
 
-.btn-primary:hover {
     box-shadow:
-        0 16px 40px rgba(216, 180, 90, 0.28);
+        0 12px 30px rgba(216, 180, 90, 0.18);
 }
 
 .btn-secondary {
-    border-color:
-        rgba(255, 255, 255, 0.12);
+    border-color: var(--border);
 
-    background:
-        rgba(255, 255, 255, 0.04);
+    background: rgba(8, 30, 23, 0.55);
 
     color: var(--text);
 }
 
-.btn-secondary:hover {
-    border-color:
-        rgba(216, 180, 90, 0.35);
-
-    background:
-        rgba(216, 180, 90, 0.06);
-}
-
 .btn-wallet {
-    color: white;
+    border-color: rgba(24, 167, 122, 0.4);
 
-    background:
-        linear-gradient(
-            135deg,
-            #087b59,
-            #0a4e3a
-        );
+    background: rgba(11, 107, 79, 0.28);
 
-    border-color:
-        rgba(24, 167, 122, 0.45);
-
-    box-shadow:
-        0 12px 30px rgba(0, 100, 70, 0.2);
+    color: #dff9ef;
 }
 
-.btn-wallet:hover {
-    box-shadow:
-        0 16px 38px rgba(0, 100, 70, 0.35);
+.action-status {
+    min-height: 20px;
+
+    margin-top: 12px;
+
+    color: var(--green-bright);
+
+    font-size: 0.85rem;
 }
 
 
-/* =========================
-   TOKEN CARD
-========================= */
+/* ================= TOKEN CARD ================= */
 
 .token-card {
     position: relative;
 
-    padding: 32px;
+    padding: 30px;
 
-    border:
-        1px solid var(--border);
-
-    border-radius: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
 
     background:
         linear-gradient(
             145deg,
-            rgba(11, 107, 79, 0.24),
-            rgba(5, 15, 11, 0.88)
+            rgba(10, 43, 33, 0.92),
+            rgba(4, 17, 13, 0.95)
         );
 
     box-shadow: var(--shadow);
@@ -426,220 +371,188 @@ button {
 
     position: absolute;
 
-    width: 240px;
-    height: 240px;
+    width: 180px;
+    height: 180px;
 
-    top: -120px;
-    right: -100px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(216, 180, 90, 0.12);
-
-    filter: blur(5px);
-
-    pointer-events: none;
-}
-
-.token-card::after {
-    content: "";
-
-    position: absolute;
-
-    width: 150px;
-    height: 150px;
-
-    bottom: -90px;
-    left: -70px;
+    top: -90px;
+    right: -90px;
 
     border-radius: 50%;
 
-    background:
-        rgba(24, 167, 122, 0.12);
-
-    filter: blur(30px);
-
-    pointer-events: none;
+    background: rgba(216, 180, 90, 0.1);
 }
 
 .token-card-top {
     position: relative;
-    z-index: 1;
 
     display: flex;
-
     align-items: center;
 
-    gap: 20px;
+    gap: 18px;
+
+    margin-bottom: 25px;
 }
 
 .token-icon {
-    width: 92px;
-    height: 92px;
-
-    object-fit: contain;
+    width: 76px;
+    height: 76px;
 
     border-radius: 50%;
 
-    box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.45);
+    filter:
+        drop-shadow(0 12px 24px rgba(0, 0, 0, 0.4));
 }
 
 .token-label {
-    color: var(--gold);
+    display: block;
 
-    font-size: 11px;
-
-    font-weight: 800;
-
-    letter-spacing: 2px;
-}
-
-.token-card h3 {
-    margin-top: 4px;
-
-    font-size: 36px;
-
-    letter-spacing: 1px;
-}
-
-.token-card p {
-    margin-top: 4px;
+    margin-bottom: 5px;
 
     color: var(--muted);
 
-    font-size: 14px;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+}
+
+.token-card h2 {
+    font-size: 2rem;
 }
 
 .mainnet-status {
-    position: relative;
-    z-index: 1;
-
     display: inline-flex;
-
     align-items: center;
+    gap: 9px;
 
-    gap: 8px;
+    margin-bottom: 25px;
+    padding: 8px 12px;
 
-    margin-top: 30px;
-
-    padding: 9px 13px;
-
+    border: 1px solid rgba(32, 213, 159, 0.15);
     border-radius: 999px;
 
-    background:
-        rgba(24, 167, 122, 0.1);
+    background: rgba(32, 213, 159, 0.06);
 
-    color: #a9efd7;
+    color: #c6e9dd;
 
-    font-size: 11px;
-
-    font-weight: 800;
-
-    letter-spacing: 1.5px;
+    font-size: 0.78rem;
 }
 
-.status-dot {
-    width: 8px;
-    height: 8px;
+.token-info {
+    display: grid;
 
-    border-radius: 50%;
+    grid-template-columns: 1fr 1fr;
 
-    background: #25d89c;
+    gap: 1px;
 
-    box-shadow:
-        0 0 14px rgba(37, 216, 156, 0.7);
+    overflow: hidden;
+
+    border: 1px solid rgba(216, 180, 90, 0.12);
+    border-radius: 15px;
+}
+
+.token-info div {
+    padding: 16px;
+
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.token-info span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--muted);
+
+    font-size: 0.72rem;
+}
+
+.token-info strong {
+    font-size: 0.92rem;
 }
 
 
-/* =========================
-   SEÇÕES
-========================= */
+/* ================= SECTIONS ================= */
 
 .contract-section,
 .details-section,
 .wallet-section,
 .links-section {
-    padding: 65px 0;
+    padding: 75px 0;
 }
 
 .section-heading {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
-.section-heading span,
-.section-label {
+.section-heading > span {
     color: var(--gold);
 
-    font-size: 11px;
-
+    font-size: 0.7rem;
     font-weight: 800;
 
-    letter-spacing: 2px;
+    letter-spacing: 0.17em;
 }
 
 .section-heading h2 {
     margin-top: 8px;
 
-    font-size: 30px;
+    font-size:
+        clamp(1.8rem, 4vw, 2.6rem);
+}
+
+.section-heading p {
+    max-width: 600px;
+
+    margin-top: 10px;
+
+    color: var(--muted);
+
+    line-height: 1.7;
 }
 
 
-/* =========================
-   CONTRATO
-========================= */
+/* ================= CONTRACT ================= */
 
 .contract-box {
     display: flex;
-
     align-items: center;
 
     gap: 12px;
 
-    padding: 18px 20px;
+    padding: 8px 8px 8px 18px;
 
-    border:
-        1px solid var(--border);
-
+    border: 1px solid var(--border);
     border-radius: 16px;
 
-    background:
-        rgba(255, 255, 255, 0.035);
-
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.18);
+    background: rgba(8, 30, 23, 0.7);
 }
 
 .contract-box code {
-    flex: 1;
-
     min-width: 0;
 
-    overflow-wrap: anywhere;
+    flex: 1;
 
-    color: #dce9e3;
+    overflow: hidden;
 
-    font-size: 14px;
+    color: #d9e8e1;
 
-    line-height: 1.6;
+    font-size: 0.86rem;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .copy-btn {
-    flex-shrink: 0;
+    flex: 0 0 auto;
 
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
 
-    border:
-        1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border);
+    border-radius: 11px;
 
-    border-radius: 10px;
+    background: rgba(216, 180, 90, 0.08);
 
-    background:
-        rgba(255, 255, 255, 0.06);
-
-    color: white;
+    color: var(--gold-light);
 
     cursor: pointer;
 
@@ -649,26 +562,13 @@ button {
 }
 
 .copy-btn:hover {
-    background:
-        rgba(216, 180, 90, 0.15);
+    background: rgba(216, 180, 90, 0.16);
 
-    transform: scale(1.05);
-}
-
-.action-status {
-    min-height: 20px;
-
-    margin-top: 10px;
-
-    color: #a9efd7;
-
-    font-size: 13px;
+    transform: translateY(-1px);
 }
 
 
-/* =========================
-   DETALHES
-========================= */
+/* ================= DETAILS ================= */
 
 .details-grid {
     display: grid;
@@ -676,26 +576,16 @@ button {
     grid-template-columns:
         repeat(4, 1fr);
 
-    border:
-        1px solid var(--border);
-
-    border-radius: 20px;
-
-    overflow: hidden;
-
-    background:
-        rgba(255, 255, 255, 0.025);
+    gap: 14px;
 }
 
 .detail-item {
-    padding: 25px;
+    padding: 23px;
 
-    border-right:
-        1px solid rgba(255, 255, 255, 0.06);
-}
+    border: 1px solid var(--border);
+    border-radius: 18px;
 
-.detail-item:last-child {
-    border-right: 0;
+    background: var(--card);
 }
 
 .detail-item span {
@@ -705,59 +595,66 @@ button {
 
     color: var(--muted);
 
-    font-size: 10px;
-
-    font-weight: 800;
-
-    letter-spacing: 1.5px;
+    font-size: 0.76rem;
 }
 
 .detail-item strong {
-    font-size: 16px;
+    color: var(--gold-light);
+
+    font-size: 1.05rem;
 }
 
 
-/* =========================
-   CARTEIRA
-========================= */
+/* ================= WALLET ================= */
 
 .wallet-card {
-    display: flex;
+    position: relative;
 
-    align-items: center;
+    padding: 38px;
 
-    justify-content: space-between;
-
-    gap: 30px;
-
-    padding: 32px;
-
-    border:
-        1px solid rgba(24, 167, 122, 0.25);
-
-    border-radius: 24px;
+    border: 1px solid rgba(24, 167, 122, 0.28);
+    border-radius: var(--radius);
 
     background:
         linear-gradient(
             135deg,
-            rgba(11, 107, 79, 0.18),
-            rgba(255, 255, 255, 0.025)
+            rgba(11, 107, 79, 0.23),
+            rgba(8, 30, 23, 0.82)
         );
 
-    box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.wallet-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    right: -100px;
+    bottom: -160px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(216, 180, 90, 0.12),
+            transparent 70%
+        );
 }
 
 .wallet-content {
-    max-width: 650px;
+    position: relative;
+    z-index: 1;
 }
 
 .wallet-content h2 {
-    margin: 8px 0 12px;
+    margin-bottom: 10px;
 
-    font-size: 28px;
-
-    line-height: 1.2;
+    font-size: 2rem;
 }
 
 .wallet-content p {
@@ -766,10 +663,38 @@ button {
     line-height: 1.7;
 }
 
+.wallet-address {
+    display: flex;
+    align-items: center;
 
-/* =========================
-   LINKS
-========================= */
+    gap: 10px;
+
+    margin-top: 22px;
+    padding: 8px 8px 8px 16px;
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.wallet-address code {
+    flex: 1;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #d9e8e1;
+
+    font-size: 0.8rem;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* ================= LINKS ================= */
 
 .links-grid {
     display: grid;
@@ -777,82 +702,69 @@ button {
     grid-template-columns:
         repeat(2, 1fr);
 
-    gap: 16px;
+    gap: 15px;
 }
 
 .external-link {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
-    gap: 20px;
+    padding: 21px;
 
-    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 17px;
 
-    border:
-        1px solid rgba(255, 255, 255, 0.08);
-
-    border-radius: 16px;
-
-    background:
-        rgba(255, 255, 255, 0.03);
-
-    color: var(--text);
-
-    cursor: pointer;
-
-    text-align: left;
+    background: rgba(8, 30, 23, 0.68);
 
     transition:
-        border-color 0.2s ease,
         transform 0.2s ease,
-        background 0.2s ease;
+        border-color 0.2s ease;
 }
 
 .external-link:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 
     border-color:
-        rgba(216, 180, 90, 0.35);
-
-    background:
-        rgba(216, 180, 90, 0.05);
+        rgba(216, 180, 90, 0.5);
 }
 
 .external-link span {
-    color: var(--muted);
-
-    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .external-link strong {
+    font-size: 1rem;
+}
+
+.external-link small {
+    color: var(--muted);
+}
+
+.external-link b {
     color: var(--gold-light);
 
-    font-size: 14px;
+    font-size: 1.3rem;
 }
 
 
-/* =========================
-   FOOTER
-========================= */
+/* ================= FOOTER ================= */
 
 .site-footer {
-    padding: 30px 0;
+    margin-top: 30px;
 
-    border-top:
-        1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid rgba(216, 180, 90, 0.12);
 
-    background:
-        rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.22);
 }
 
 .footer-content {
+    min-height: 100px;
+
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
     gap: 20px;
@@ -860,58 +772,55 @@ button {
 
 .footer-brand {
     display: flex;
-
     align-items: center;
 
-    gap: 10px;
+    gap: 12px;
 }
 
 .footer-brand img {
-    width: 34px;
-    height: 34px;
-
-    object-fit: contain;
-
-    border-radius: 50%;
+    width: 38px;
+    height: 38px;
 }
 
-.footer-brand strong {
-    display: block;
+.footer-brand div {
+    display: flex;
+    flex-direction: column;
 }
 
 .footer-brand span {
-    display: block;
+    margin-top: 4px;
 
     color: var(--muted);
 
-    font-size: 11px;
+    font-size: 0.72rem;
 }
 
 .footer-content > p {
     color: var(--muted);
 
-    font-size: 12px;
+    font-size: 0.78rem;
+}
+
+.footer-bottom {
+    padding: 18px 0 25px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+
+    color: #71817a;
+
+    font-size: 0.72rem;
+
+    text-align: center;
 }
 
 
-/* =========================
-   FOCO / ACESSIBILIDADE
-========================= */
-
-button:focus-visible,
-a:focus-visible {
-    outline:
-        2px solid var(--gold-light);
-
-    outline-offset: 4px;
-}
-
-
-/* =========================
-   TABLET
-========================= */
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 900px) {
+
+    .hero {
+        padding: 75px 0;
+    }
 
     .hero-grid {
         grid-template-columns: 1fr;
@@ -920,95 +829,61 @@ a:focus-visible {
     }
 
     .hero-content {
-        max-width: 760px;
+        text-align: center;
     }
 
-    .token-card {
-        max-width: 650px;
+    .eyebrow {
+        justify-content: center;
+    }
+
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-actions {
+        justify-content: center;
     }
 
     .details-grid {
         grid-template-columns:
             repeat(2, 1fr);
     }
-
-    .detail-item:nth-child(2) {
-        border-right: 0;
-    }
-
-    .detail-item:nth-child(-n + 2) {
-        border-bottom:
-            1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .wallet-card {
-        align-items: flex-start;
-
-        flex-direction: column;
-    }
 }
 
-
-/* =========================
-   MOBILE
-========================= */
 
 @media (max-width: 600px) {
 
     .container {
-        width:
-            calc(100% - 28px);
-    }
-
-    .site-header {
-        padding: 16px 0;
+        width: min(
+            100% - 28px,
+            1120px
+        );
     }
 
     .header-content {
-        align-items: center;
-    }
-
-    .brand-icon {
-        width: 40px;
-        height: 40px;
-    }
-
-    .brand strong {
-        font-size: 17px;
-    }
-
-    .brand span {
-        font-size: 10px;
+        min-height: 70px;
     }
 
     .network-badge {
-        max-width: 120px;
+        display: none;
+    }
 
-        padding: 7px 9px;
+    .brand-icon {
+        width: 42px;
+        height: 42px;
+    }
 
-        font-size: 8px;
-
-        text-align: center;
-
-        line-height: 1.3;
+    .brand-text strong {
+        font-size: 1rem;
     }
 
     .hero {
-        padding: 65px 0 45px;
+        padding: 60px 0;
     }
 
     .hero h1 {
-        font-size: 64px;
-
-        letter-spacing: -4px;
-    }
-
-    .hero h2 {
-        font-size: 22px;
-    }
-
-    .hero-description {
-        font-size: 15px;
+        font-size: 3.7rem;
     }
 
     .hero-actions {
@@ -1020,117 +895,48 @@ a:focus-visible {
     }
 
     .token-card {
-        padding: 24px;
-
-        border-radius: 22px;
+        padding: 23px;
     }
 
-    .token-icon {
-        width: 72px;
-        height: 72px;
+    .contract-box code,
+    .wallet-address code {
+        font-size: 0.68rem;
     }
 
-    .token-card h3 {
-        font-size: 30px;
-    }
-
-    .contract-section,
-    .details-section,
-    .wallet-section,
-    .links-section {
-        padding: 48px 0;
-    }
-
-    .section-heading h2 {
-        font-size: 25px;
-    }
-
-    .contract-box {
-        align-items: flex-start;
-
-        padding: 14px;
-    }
-
-    .contract-box code {
-        font-size: 11px;
-
-        line-height: 1.7;
-    }
-
-    .copy-btn {
-        width: 40px;
-        height: 40px;
-    }
-
-    .details-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .detail-item {
-        border-right: 0;
-
-        border-bottom:
-            1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .detail-item:last-child {
-        border-bottom: 0;
-    }
-
-    .wallet-card {
-        padding: 24px;
-
-        border-radius: 20px;
-    }
-
-    .wallet-content h2 {
-        font-size: 24px;
-    }
-
+    .details-grid,
     .links-grid {
         grid-template-columns: 1fr;
     }
 
-    .external-link {
-        padding: 17px;
-
-        flex-direction: column;
-
-        align-items: flex-start;
+    .wallet-card {
+        padding: 25px 20px;
     }
 
     .footer-content {
         flex-direction: column;
 
         align-items: flex-start;
+
+        padding: 28px 0;
     }
 }
 
 
-/* =========================
-   TELAS MUITO PEQUENAS
-========================= */
-
 @media (max-width: 380px) {
 
     .hero h1 {
-        font-size: 54px;
+        font-size: 3.1rem;
     }
 
-    .network-badge {
-        display: none;
+    .token-info {
+        grid-template-columns: 1fr;
     }
 
-    .token-card-top {
-        gap: 14px;
+    .wallet-address {
+        padding-left: 10px;
     }
 
-    .token-icon {
-        width: 62px;
-        height: 62px;
-    }
-
-    .token-card h3 {
-        font-size: 26px;
+    .wallet-address code {
+        font-size: 0.62rem;
     }
 }
