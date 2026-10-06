@@ -1,345 +1,143 @@
-(() => {
-    "use strict";
-
-    // =====================================================
-    // CONFIGURAÇÃO DO TOKEN
-    // =====================================================
-
-    const TOKEN = {
-        name: "USTD",
-        symbol: "USTD",
-        network: "Ethereum Mainnet",
-        standard: "ERC-20",
-        decimals: 18,
-
-        address:
-            "0x4644E1113FE1a6bA831D85cc4772b3D0c23DE655",
-
-        image: "./ustd-icon.svg"
-    };
-
-
-    // Carteira pública informada para referência
-    const WALLET_ADDRESS =
-        "0x26Ef6c3AF50240F211E774213914f8DB526fA77d";
-
-
-    // =====================================================
-    // ELEMENTOS
-    // =====================================================
-
-    const copyBtn =
-        document.getElementById("copyBtn");
-
-    const copyStatus =
-        document.getElementById("copyStatus");
-
-    const addWalletBtn =
-        document.getElementById("addWalletBtn");
-
-    const walletStatus =
-        document.getElementById("walletStatus");
-
-    const copyWalletBtn =
-        document.getElementById("copyWalletBtn");
-
-    const walletCopyStatus =
-        document.getElementById("walletCopyStatus");
-
-    const currentYear =
-        document.getElementById("currentYear");
-
-
-    // =====================================================
-    // COPIAR TEXTO
-    // =====================================================
-
-    async function copyText(text) {
-
-        if (!text) {
-            return false;
-        }
-
-        try {
-
-            if (
-                navigator.clipboard &&
-                window.isSecureContext
-            ) {
-                await navigator.clipboard.writeText(text);
-
-                return true;
-            }
-
-        } catch (error) {
-
-            console.warn(
-                "Clipboard API indisponível:",
-                error
-            );
-        }
-
-
-        // Fallback para celulares/navegadores antigos
-
-        try {
-
-            const textarea =
-                document.createElement("textarea");
-
-            textarea.value = text;
-
-            textarea.setAttribute(
-                "readonly",
-                ""
-            );
-
-            textarea.style.position =
-                "fixed";
-
-            textarea.style.left =
-                "-9999px";
-
-            textarea.style.top =
-                "0";
-
-            document.body.appendChild(
-                textarea
-            );
-
-            textarea.focus();
-            textarea.select();
-
-            const copied =
-                document.execCommand("copy");
-
-            textarea.remove();
-
-            return copied;
-
-        } catch (error) {
-
-            console.error(
-                "Erro ao copiar:",
-                error
-            );
-
-            return false;
-        }
-    }
-
-
-    // =====================================================
-    // COPIAR CONTRATO
-    // =====================================================
-
-    async function copyContract() {
-
-        const success =
-            await copyText(
-                TOKEN.address
-            );
-
-
-        if (copyStatus) {
-
-            copyStatus.textContent =
-                success
-                    ? "✓ Endereço do contrato copiado."
-                    : "Não foi possível copiar automaticamente.";
-        }
-
-
-        if (copyBtn) {
-
-            copyBtn.textContent =
-                success
-                    ? "✓"
-                    : "×";
-
-            setTimeout(() => {
-
-                copyBtn.textContent = "⧉";
-
-                if (copyStatus) {
-                    copyStatus.textContent = "";
-                }
-
-            }, 2500);
-        }
-    }
-
-
-    // =====================================================
-    // COPIAR CARTEIRA
-    // =====================================================
-
-    async function copyWallet() {
-
-        const success =
-            await copyText(
-                WALLET_ADDRESS
-            );
-
-
-        if (walletCopyStatus) {
-
-            walletCopyStatus.textContent =
-                success
-                    ? "✓ Endereço da carteira copiado."
-                    : "Não foi possível copiar automaticamente.";
-        }
-
-
-        if (copyWalletBtn) {
-
-            copyWalletBtn.textContent =
-                success
-                    ? "✓"
-                    : "×";
-
-            setTimeout(() => {
-
-                copyWalletBtn.textContent =
-                    "⧉";
-
-                if (walletCopyStatus) {
-                    walletCopyStatus.textContent =
-                        "";
-                }
-
-            }, 2500);
-        }
-    }
-
-
-    // =====================================================
-    // ADICIONAR TOKEN À METAMASK
-    // =====================================================
-
-    async function addTokenToWallet() {
-
-        if (!window.ethereum) {
-
-            if (walletStatus) {
-
-                walletStatus.textContent =
-                    "Instale ou abra uma carteira compatível com Ethereum, como MetaMask.";
-            }
-
-            return;
-        }
-
-
-        try {
-
-            const wasAdded =
-                await window.ethereum.request({
-
-                    method:
-                        "wallet_watchAsset",
-
-                    params: {
-
-                        type: "ERC20",
-
-                        options: {
-
-                            address:
-                                TOKEN.address,
-
-                            symbol:
-                                TOKEN.symbol,
-
-                            decimals:
-                                TOKEN.decimals,
-
-                            image:
-                                window.location.origin +
-                                "/" +
-                                TOKEN.image.replace(
-                                    "./",
-                                    ""
-                                )
-                        }
-                    }
-                });
-
-
-            if (walletStatus) {
-
-                walletStatus.textContent =
-                    wasAdded
-                        ? "✓ USTD foi adicionado à carteira."
-                        : "A solicitação foi cancelada.";
-            }
-
-        } catch (error) {
-
-            console.error(
-                "Erro ao adicionar token:",
-                error
-            );
-
-
-            if (walletStatus) {
-
-                walletStatus.textContent =
-                    "Não foi possível adicionar o token. Verifique sua carteira.";
-            }
-        }
-    }
-
-
-    // =====================================================
-    // EVENTOS
-    // =====================================================
-
-    if (copyBtn) {
-
-        copyBtn.addEventListener(
-            "click",
-            copyContract
-        );
-    }
-
-
-    if (copyWalletBtn) {
-
-        copyWalletBtn.addEventListener(
-            "click",
-            copyWallet
-        );
-    }
-
-
-    if (addWalletBtn) {
-
-        addWalletBtn.addEventListener(
-            "click",
-            addTokenToWallet
-        );
-    }
-
-
-    // =====================================================
-    // ANO AUTOMÁTICO
-    // =====================================================
-
-    if (currentYear) {
-
-        currentYear.textContent =
-            new Date().getFullYear();
-    }
-
-
-    // =====================================================
-    // INFORMAÇÕES NO CONSOLE
-    // =====================================================
-
-    console.info(
-        "USTD inicializado:",
-        TOKEN
-    );
-
-})();
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">  
+  <defs>  
+    <radialGradient id="green" cx="50%" cy="40%" r="65%">  
+      <stop offset="0%" stop-color="#087a50"/>  
+      <stop offset="55%" stop-color="#045b3c"/>  
+      <stop offset="100%" stop-color="#021f16"/>  
+    </radialGradient>  <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">  
+  <stop offset="0%" stop-color="#fff1b0"/>  
+  <stop offset="25%" stop-color="#e8c86d"/>  
+  <stop offset="55%" stop-color="#fff0a8"/>  
+  <stop offset="80%" stop-color="#b8892d"/>  
+  <stop offset="100%" stop-color="#f5d77d"/>  
+</linearGradient>  
+
+<filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">  
+  <feDropShadow  
+    dx="0"  
+    dy="8"  
+    stdDeviation="8"  
+    flood-color="#000000"  
+    flood-opacity="0.65"/>  
+</filter>  
+
+<filter id="glow">  
+  <feGaussianBlur stdDeviation="4" result="blur"/>  
+  <feMerge>  
+    <feMergeNode in="blur"/>  
+    <feMergeNode in="SourceGraphic"/>  
+  </feMerge>  
+</filter>
+
+  </defs>    <!-- Fundo -->  <circle  
+cx="256"  
+cy="256"  
+r="247"  
+fill="#020403"/>
+
+  <!-- Borda externa dourada -->  <circle  
+cx="256"  
+cy="256"  
+r="232"  
+fill="url(#green)"  
+stroke="url(#gold)"  
+stroke-width="12"  
+filter="url(#shadow)"/>
+
+  <!-- Anel interno -->  <circle  
+cx="256"  
+cy="256"  
+r="195"  
+fill="#03452f"  
+stroke="url(#gold)"  
+stroke-width="6"/>
+
+  <!-- Circuitos -->  <g  
+fill="none"  
+stroke="#19a96f"  
+stroke-width="4"  
+opacity="0.55">
+
+<path d="M85 180h55l35-35h45"/>  
+<path d="M427 180h-55l-35-35h-45"/>  
+
+<path d="M75 290h65l35 35h45"/>  
+<path d="M437 290h-65l-35 35h-45"/>  
+
+<path d="M125 120v45l-25 25"/>  
+<path d="M387 120v45l25 25"/>  
+
+<path d="M125 392v-45l-25-25"/>  
+<path d="M387 392v-45l25-25"/>
+
+  </g>    <g fill="#20c987">  
+    <circle cx="140" cy="180" r="6"/>  
+    <circle cx="372" cy="180" r="6"/>  
+    <circle cx="140" cy="290" r="6"/>  
+    <circle cx="372" cy="290" r="6"/>  
+    <circle cx="125" cy="120" r="6"/>  
+    <circle cx="387" cy="120" r="6"/>  
+  </g>    <!-- Símbolo USTD -->    <g fill="url(#gold)" stroke="#8d681f" stroke-width="3" filter="url(#shadow)">  <!-- Barra superior -->  
+<rect  
+  x="145"  
+  y="120"  
+  width="222"  
+  height="48"  
+  rx="4"/>  
+
+<!-- Haste -->  
+<rect  
+  x="225"  
+  y="155"  
+  width="62"  
+  height="165"  
+  rx="4"/>  
+
+<!-- Arco -->  
+<path  
+  d="  
+    M135 172  
+    C135 172 145 225 256 225  
+    C367 225 377 172 377 172  
+    C377 172 377 270 256 270  
+    C135 270 135 172 135 172  
+    Z"/>
+
+  </g>    <!-- Texto USTD -->  <text  
+x="256"  
+y="365"  
+text-anchor="middle"  
+font-family="Arial, Helvetica, sans-serif"  
+font-size="72"  
+font-weight="900"  
+letter-spacing="3"  
+fill="url(#gold)"  
+stroke="#805c18"  
+stroke-width="2"  
+paint-order="stroke">
+USTD
+</text>
+
+  <!-- Brilho -->  <circle  
+cx="105"  
+cy="145"  
+r="5"  
+fill="#fff4b5"  
+filter="url(#glow)"/>
+
+<circle  
+cx="407"  
+cy="355"  
+r="4"  
+fill="#fff4b5"  
+filter="url(#glow)"/>
+
+  <!-- Borda final -->  <circle  
+cx="256"  
+cy="256"  
+r="232"  
+fill="none"  
+stroke="#f4d77c"  
+stroke-width="2"  
+opacity="0.8"/>
+</svg>
