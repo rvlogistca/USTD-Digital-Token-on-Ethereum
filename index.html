@@ -127,15 +127,22 @@
                         <button
                             class="active"
                             data-r="1m"
+                            type="button"
                         >
                             1m
                         </button>
 
-                        <button data-r="30m">
+                        <button
+                            data-r="30m"
+                            type="button"
+                        >
                             30m
                         </button>
 
-                        <button data-r="1h">
+                        <button
+                            data-r="1h"
+                            type="button"
+                        >
                             1h
                         </button>
 
@@ -268,7 +275,7 @@
     </section>
 
 
-    <!-- COMPRAR -->
+    <!-- COMPRAR / ADICIONAR -->
     <section class="section section-dark" id="comprar">
 
         <div class="container">
@@ -282,8 +289,8 @@
             </h2>
 
             <p class="sub">
-                Você pode adicionar o token manualmente utilizando
-                o endereço oficial do contrato.
+                Adicione o USTD diretamente à sua MetaMask utilizando
+                o contrato oficial do token.
             </p>
 
             <div class="buy-card">
@@ -331,6 +338,7 @@
                     <div
                         class="action-status"
                         id="walletStatus"
+                        aria-live="polite"
                     ></div>
 
                 </div>
@@ -388,6 +396,7 @@
                 <button
                     class="copy"
                     onclick="copyId('t1')"
+                    type="button"
                 >
                     Copiar endereço
                 </button>
@@ -422,6 +431,7 @@
                 <button
                     class="copy"
                     onclick="copyId('t2')"
+                    type="button"
                 >
                     Copiar endereço
                 </button>
@@ -463,6 +473,7 @@
                 <button
                     class="copy"
                     onclick="copyId('t3')"
+                    type="button"
                 >
                     Copiar endereço
                 </button>
@@ -478,7 +489,9 @@
 
                 <p class="eth-balance">
                     Saldo ETH:
-                    <strong id="bal">Consultando...</strong>
+                    <strong id="bal">
+                        Consultando...
+                    </strong>
                 </p>
 
                 <div class="balance-tag">
@@ -531,7 +544,358 @@
     </footer>
 
 
-    <script src="./script.js"></script>
+    <!-- =====================================================
+         INTEGRAÇÃO USTD + METAMASK
+    ====================================================== -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            /*
+             * =================================================
+             * CONFIGURAÇÃO OFICIAL DO USTD
+             * =================================================
+             */
+
+            const CONTRACT_ADDRESS =
+                "0x4644E1113FE1a6bA831D85cc4772b3D0c23DE655";
+
+            const TOKEN_SYMBOL = "USTD";
+
+            const TOKEN_DECIMALS = 18;
+
+            const TOKEN_IMAGE =
+                "https://coffee-decisive-puma-198.mypinata.cloud/ipfs/bafybeibbegqbhy4cwuy3ucyvetkep4ro4k6bhmyehogsv5nvojdxdizx3a";
+
+
+            /*
+             * =================================================
+             * ELEMENTOS
+             * =================================================
+             */
+
+            const addWalletBtn =
+                document.getElementById("addWalletBtn");
+
+            const copyContractBtn =
+                document.getElementById("copyContractBtn");
+
+            const walletStatus =
+                document.getElementById("walletStatus");
+
+
+            /*
+             * =================================================
+             * ADICIONAR USTD À METAMASK
+             * =================================================
+             */
+
+            if (addWalletBtn) {
+
+                addWalletBtn.addEventListener(
+                    "click",
+                    async () => {
+
+                        walletStatus.textContent = "";
+
+                        /*
+                         * Verifica se existe uma carteira
+                         * compatível com window.ethereum.
+                         */
+
+                        if (typeof window.ethereum === "undefined") {
+
+                            walletStatus.textContent =
+                                "MetaMask não encontrada. Abra este site no navegador da MetaMask.";
+
+                            return;
+                        }
+
+
+                        try {
+
+                            /*
+                             * Solicita conexão com a carteira.
+                             */
+
+                            await window.ethereum.request({
+                                method: "eth_requestAccounts"
+                            });
+
+
+                            /*
+                             * Verifica a rede atual.
+                             *
+                             * Ethereum Mainnet = 0x1
+                             */
+
+                            let chainId =
+                                await window.ethereum.request({
+                                    method: "eth_chainId"
+                                });
+
+
+                            /*
+                             * Se não estiver na Ethereum Mainnet,
+                             * solicita a mudança de rede.
+                             */
+
+                            if (chainId.toLowerCase() !== "0x1") {
+
+                                try {
+
+                                    await window.ethereum.request({
+                                        method: "wallet_switchEthereumChain",
+                                        params: [
+                                            {
+                                                chainId: "0x1"
+                                            }
+                                        ]
+                                    });
+
+                                } catch (switchError) {
+
+                                    console.error(
+                                        "Erro ao trocar de rede:",
+                                        switchError
+                                    );
+
+                                    walletStatus.textContent =
+                                        "Selecione Ethereum Mainnet na MetaMask e tente novamente.";
+
+                                    return;
+                                }
+
+                            }
+
+
+                            /*
+                             * Solicita à carteira a adição do token.
+                             *
+                             * wallet_watchAsset é o método utilizado
+                             * para solicitar a inclusão de um token.
+                             */
+
+                            const added =
+                                await window.ethereum.request({
+
+                                    method: "wallet_watchAsset",
+
+                                    params: {
+
+                                        type: "ERC20",
+
+                                        options: {
+
+                                            address:
+                                                CONTRACT_ADDRESS,
+
+                                            symbol:
+                                                TOKEN_SYMBOL,
+
+                                            decimals:
+                                                TOKEN_DECIMALS,
+
+                                            image:
+                                                TOKEN_IMAGE
+                                        }
+                                    }
+
+                                });
+
+
+                            /*
+                             * Resultado da solicitação.
+                             */
+
+                            if (added) {
+
+                                walletStatus.textContent =
+                                    "✓ USTD adicionado à MetaMask com sucesso.";
+
+                            } else {
+
+                                walletStatus.textContent =
+                                    "A adição do USTD foi cancelada.";
+
+                            }
+
+
+                        } catch (error) {
+
+                            console.error(
+                                "Erro ao adicionar USTD:",
+                                error
+                            );
+
+                            walletStatus.textContent =
+                                "Não foi possível adicionar o USTD. Tente novamente.";
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /*
+             * =================================================
+             * COPIAR CONTRATO
+             * =================================================
+             */
+
+            if (copyContractBtn) {
+
+                copyContractBtn.addEventListener(
+                    "click",
+                    async () => {
+
+                        try {
+
+                            await navigator.clipboard.writeText(
+                                CONTRACT_ADDRESS
+                            );
+
+                            const originalText =
+                                copyContractBtn.textContent;
+
+                            copyContractBtn.textContent =
+                                "Contrato copiado ✓";
+
+                            setTimeout(() => {
+
+                                copyContractBtn.textContent =
+                                    originalText;
+
+                            }, 2000);
+
+                        } catch (error) {
+
+                            console.error(
+                                "Erro ao copiar contrato:",
+                                error
+                            );
+
+                            copyContractBtn.textContent =
+                                "Não foi possível copiar";
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /*
+             * =================================================
+             * COPIAR ENDEREÇOS
+             * =================================================
+             */
+
+            window.copyId = async function(id) {
+
+                const element =
+                    document.getElementById(id);
+
+                if (!element) return;
+
+                const address =
+                    element.textContent.trim();
+
+                try {
+
+                    await navigator.clipboard.writeText(
+                        address
+                    );
+
+                    const button =
+                        element.parentElement
+                            .querySelector(".copy");
+
+                    if (button) {
+
+                        const originalText =
+                            button.textContent;
+
+                        button.textContent =
+                            "Copiado ✓";
+
+                        setTimeout(() => {
+
+                            button.textContent =
+                                originalText;
+
+                        }, 2000);
+
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Erro ao copiar:",
+                        error
+                    );
+
+                }
+
+            };
+
+
+            /*
+             * =================================================
+             * ANO DO FOOTER
+             * =================================================
+             */
+
+            const year =
+                document.getElementById("currentYear");
+
+            if (year) {
+
+                year.textContent =
+                    new Date().getFullYear();
+
+            }
+
+
+            /*
+             * =================================================
+             * EVENTOS DE MUDANÇA DE CONTA / REDE
+             * =================================================
+             */
+
+            if (window.ethereum) {
+
+                window.ethereum.on(
+                    "chainChanged",
+                    () => {
+
+                        console.log(
+                            "Rede da carteira alterada."
+                        );
+
+                    }
+                );
+
+                window.ethereum.on(
+                    "accountsChanged",
+                    () => {
+
+                        console.log(
+                            "Conta da carteira alterada."
+                        );
+
+                    }
+                );
+
+            }
+
+        });
+
+    </script>
 
 </body>
 </html>
