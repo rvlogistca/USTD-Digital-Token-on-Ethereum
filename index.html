@@ -14,9 +14,63 @@
 
     <link rel="icon" type="image/svg+xml" href="./ustd-icon.svg">
     <link rel="stylesheet" href="./style.css">
+    <style>
+        /* === TELA DE MANUTENÇÃO === */
+        .manutencao-banner {
+            background: linear-gradient(135deg, #1a1500, #0f2e1a);
+            border-bottom: 2px solid #ffd700;
+            padding: 18px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 100;
+        }
+        .manutencao-banner h2 {
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+        }
+        .manutencao-banner p {
+            color: #90ee90;
+            font-size: 0.9rem;
+        }
+        .manutencao-banner .desenvolvedor {
+            color: #ffd700;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+        .manutencao-banner .barra {
+            max-width: 400px;
+            margin: 10px auto 0;
+            height: 6px;
+            background: #2a2510;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .manutencao-banner .barra span {
+            display: block;
+            height: 100%;
+            width: 65%;
+            background: linear-gradient(90deg, #ffd700, #22c55e);
+            border-radius: 3px;
+            animation: carregar 2s ease-in-out infinite alternate;
+        }
+        @keyframes carregar {
+            from { width: 55%; }
+            to { width: 75%; }
+        }
+    </style>
 </head>
 
 <body>
+
+    <!-- 🛑 AVISO DE MANUTENÇÃO -->
+    <div class="manutencao-banner">
+        <h2>⚙️ Sistema em Manutenção</h2>
+        <p>Estamos atualizando informações on-chain. Volte em breve!</p>
+        <div class="barra"><span></span></div>
+        <p class="desenvolvedor">Desenvolvedor💻 &lt;Eliel Lara&gt;</p>
+    </div>
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -196,7 +250,7 @@
 
 
     <!-- SOBRE -->
-    <section class="section" id="sobre">
+    <section class="section">
 
         <div class="container">
 
@@ -539,6 +593,10 @@
                 Todos os direitos reservados.
             </p>
 
+            <p style="margin-top: 12px; color: #ffd700; font-weight: 700; font-size: 0.95rem;">
+                Desenvolvedor💻 &lt;Eliel Lara&gt;
+            </p>
+
         </div>
 
     </footer>
@@ -829,7 +887,6 @@
                                 originalText;
 
                         }, 2000);
-
                     }
 
                 } catch (error) {
