@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="theme-color" content="#06060c">
     <meta name="description" content="USTD — Token digital ERC-20 na rede Ethereum.">
-    <title>USTD — Stablecoin</title>
+    <title>USTD — Em Manutenção</title>
+
     <link rel="icon" type="image/svg+xml" href="./ustd-icon.svg">
     <link rel="stylesheet" href="./style.css">
+
     <style>
-        /* === FUNDO DESFOCADO === */
-        .blur-wrapper {
-            filter: blur(8px);
+        /* === SITE NO FUNDO — LEVEMENTE DESFOCADO === */
+        .fundo-site {
+            filter: blur(4px);
+            opacity: 0.55;
             pointer-events: none;
             user-select: none;
         }
 
-        /* === TELA CENTRAL — SOMENTE O NOME VISÍVEL === */
-        .dev-overlay {
+        /* === TELA DE MANUTENÇÃO NO CENTRO === */
+        .manutencao-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -27,37 +30,112 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(6, 6, 12, 0.85);
-            z-index: 9999;
+            background: rgba(6, 6, 12, 0.78);
+            z-index: 99999;
+            padding: 30px;
+            text-align: center;
         }
-        .dev-name {
-            font-size: 2.2rem;
+
+        /* === TÍTULO PRINCIPAL === */
+        .titulo {
+            font-size: 2.3rem;
             font-weight: 700;
             color: #ffd700;
-            text-align: center;
-            line-height: 1.6;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+            margin-bottom: 20px;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.35);
         }
-        .dev-sub {
-            font-size: 1.5rem;
-            color: #ffffff;
+
+        /* === CÓDIGO DE CONFIGURAÇÃO === */
+        .code-box {
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid #22c55e;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            max-width: 520px;
+            width: 100%;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #90ee90;
+            line-height: 1.9;
+            overflow-x: auto;
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.15);
+        }
+
+        /* === REDE ETHEREUM === */
+        .eth-info {
+            font-size: 1.1rem;
+            color: #cccccc;
+            margin: 15px 0 30px;
+        }
+        .eth-info strong {
+            color: #627eea;
+        }
+
+        /* === ASSINATURA ESTILO HUMANO === */
+        .assinatura {
+            margin-top: 40px;
+        }
+        .assinatura .linha1 {
+            font-size: 1.2rem;
+            color: #dddddd;
+            font-style: italic;
+        }
+        .assinatura .nome {
+            font-size: 2rem;
+            color: #ffd700;
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
             margin-top: 10px;
+            letter-spacing: 2px;
+        }
+        .assinatura .risco {
+            width: 220px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+            margin: 10px auto 0;
+        }
+
+        /* === ANIMAÇÃO === */
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.65; }
         }
     </style>
 </head>
-
 <body>
 
-    <!-- ✨ TELA DESTAQUE -->
-    <div class="dev-overlay">
-        <div class="dev-name">
-            Desenvolvedor💻
-            <div class="dev-sub">Eliel Lara</div>
+    <!-- ✨ TELA DE MANUTENÇÃO NO CENTRO -->
+    <div class="manutencao-overlay">
+        <h1 class="titulo pulse">🔧 USTD em MANUTENÇÃO</h1>
+
+        <div class="code-box">
+<span>// CONFIGURAÇÃO DO TOKEN</span><br>
+<span>CONTRATO: 0x4644E1113FE1a6bA831D85cc4772b3D0c23DE655</span><br>
+<span>REDE: Ethereum Mainnet</span><br>
+<span>PADRÃO: ERC-20</span><br>
+<span>DECIMAIS: 18</span><br>
+<span>SÍMBOLO: USTD</span><br>
+<span>STATUS: Atualizando dados on-chain...</span><br>
+<span>AGUARDE — Em breve disponível</span>
+        </div>
+
+        <p class="eth-info">
+            ✨ Desenvolvido pela rede <strong>Ethereum</strong>
+        </p>
+
+        <div class="assinatura">
+            <p class="linha1">programador</p>
+            <h2 class="nome">Eliel Lara</h2>
+            <div class="risco"></div>
         </div>
     </div>
 
-    <!-- 🌐 TODO O SITE DESFOCADO -->
-    <div class="blur-wrapper">
+    <!-- 🌐 SITE ORIGINAL — LEVEMENTE DESFOCADO NO FUNDO -->
+    <div class="fundo-site">
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -119,7 +197,7 @@
     </section>
 
     <!-- SOBRE -->
-    <section class="section">
+    <section class="section" id="sobre">
         <div class="container">
             <div class="section-label">SOBRE O PROJETO</div>
             <h2>O que é USTD?</h2>
@@ -218,14 +296,28 @@
         </div>
     </footer>
 
-    </div> <!-- FIM DO BLUR WRAPPER -->
-
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const year = document.getElementById("currentYear");
             if (year) year.textContent = new Date().getFullYear();
         });
+
+        window.copyId = async function(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            try {
+                await navigator.clipboard.writeText(el.textContent.trim());
+                const btn = el.parentElement.querySelector(".copy");
+                if (btn) {
+                    const orig = btn.textContent;
+                    btn.textContent = "Copiado ✓";
+                    setTimeout(() => btn.textContent = orig, 2000);
+                }
+            } catch (e) {}
+        };
     </script>
+
+    </div> <!-- FIM DO FUNDO SITE -->
 
 </body>
 </html>
