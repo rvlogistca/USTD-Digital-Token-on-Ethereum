@@ -7,10 +7,27 @@
     <meta name="description" content="USTD — Token digital ERC-20 na rede Ethereum.">
     <title>USTD — Em Manutenção</title>
 
-    <link rel="icon" type="image/svg+xml" href="./ustd-icon.svg">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" type="image/png" href="./ustd-icon.png">
 
     <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --bg-dark:#06060c;
+            --bg-section:#0f1419;
+            --accent:#ffd700;
+            --primary:#22c55e;
+            --eth:#627eea;
+            --text:#fff;
+            --muted:#aaa;
+        }
+        body{
+            font-family:system-ui,-apple-system,sans-serif;
+            background:var(--bg-dark);
+            color:var(--text);
+            line-height:1.6;
+        }
+        .container{width:90%;max-width:1200px;margin:0 auto}
+
         /* === SITE NO FUNDO — LEVEMENTE DESFOCADO === */
         .fundo-site {
             filter: blur(4px);
@@ -104,6 +121,82 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.65; }
         }
+
+        /* === ESTILOS DO SITE PRINCIPAL === */
+        .navbar{padding:1rem 0;border-bottom:1px solid rgba(255,255,255,.05);position:sticky;top:0;background:rgba(6,6,12,.95);backdrop-filter:blur(8px);z-index:100}
+        .nav-inner{display:flex;justify-content:space-between;align-items:center}
+        .logo{display:flex;align-items:center;gap:.5rem;color:var(--text);font-weight:700;font-size:1.25rem;text-decoration:none}
+        .logo img{height:40px;width:auto;object-fit:contain}
+        .btn{padding:.6rem 1.2rem;border-radius:8px;font-weight:600;border:none;cursor:pointer;text-decoration:none;display:inline-block;text-align:center;transition:all .2s}
+        .btn-primary{background:linear-gradient(135deg,var(--accent),#e6c200);color:#000}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,215,0,.25)}
+        .btn-outline{background:transparent;border:1px solid var(--primary);color:var(--primary)}
+        .btn-outline:hover{background:var(--primary);color:#000}
+        .hero{padding:4rem 0;text-align:center}
+        .badge{display:inline-block;padding:.3rem 1rem;border-radius:20px;background:rgba(98,126,234,.15);color:var(--eth);font-size:.9rem;margin-bottom:1rem}
+        .hero h1{font-size:clamp(2.5rem,6vw,4rem);line-height:1.2;margin-bottom:1rem}
+        .hero h1 span{color:var(--accent)}
+        .hero p{font-size:1.1rem;color:var(--muted);max-width:600px;margin:0 auto 2rem}
+        .stats{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:2rem}
+        .stat{text-align:center}
+        .stat strong{display:block;font-size:1.8rem;color:var(--accent)}
+        .stat span{color:var(--muted);font-size:.9rem}
+        .cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+        .section{padding:4rem 0}
+        .section-dark{background:var(--bg-section)}
+        .section-label{text-transform:uppercase;color:var(--primary);font-size:.9rem;letter-spacing:2px;margin-bottom:.5rem}
+        .section h2{font-size:2rem;margin-bottom:.5rem}
+        .sub{color:var(--muted);margin-bottom:2rem}
+        .grid{display:grid;gap:1.5rem}
+        .grid-3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+        .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.75rem;transition:transform .2s}
+        .card:hover{transform:translateY(-4px);border-color:var(--accent)}
+        .card-icon{font-size:2rem;color:var(--accent);margin-bottom:1rem}
+        .card h3{margin-bottom:.75rem}
+        .card p{color:var(--muted);font-size:.95rem}
+        .chart-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem}
+        .chart-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1rem}
+        .asset-name{display:flex;align-items:center;gap:.75rem}
+        .asset-name img{width:40px;height:40px;object-fit:contain}
+        .asset-name strong{display:block}
+        .asset-name small{color:var(--muted);font-size:.8rem}
+        .range-btns{display:flex;gap:.3rem}
+        .range-btns button{background:transparent;border:1px solid transparent;color:var(--muted);padding:.3rem .7rem;border-radius:6px;cursor:pointer}
+        .range-btns button.active{border-color:var(--accent);color:var(--accent)}
+        .price-line{font-size:1.8rem;font-weight:700;margin-bottom:.25rem}
+        .change{color:var(--primary);font-size:.9rem;margin-bottom:1rem}
+        #usdtChart{width:100%;height:180px;background:rgba(255,255,255,.02);border-radius:8px;margin-bottom:1rem}
+        .chart-note{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:1rem}
+        .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center}
+        .meta span{display:block;font-size:.8rem;color:var(--muted)}
+        .meta strong{font-size:1rem}
+        .buy-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;text-align:left}
+        .buy-icon{width:60px;height:60px;object-fit:contain}
+        .buy-content{flex:1;min-width:280px}
+        .buy-content h3{margin-bottom:.5rem}
+        .buy-content p{color:var(--muted);font-size:.9rem;margin-bottom:.75rem}
+        .buy-content code{display:block;background:rgba(0,0,0,.4);padding:.75rem;border-radius:6px;font-size:.85rem;color:#90ee90;word-break:break-all;margin-bottom:1rem}
+        .buy-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem}
+        .action-status{min-height:1.5rem;font-size:.9rem;color:var(--primary)}
+        .address-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+        .address-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem}
+        .address-label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:.25rem}
+        .network-tag{background:rgba(98,126,234,.15);color:var(--eth);padding:.2rem .6rem;border-radius:4px;font-size:.8rem}
+        .address-card code{display:block;background:rgba(0,0,0,.4);padding:.75rem;border-radius:6px;font-size:.85rem;color:#90ee90;word-break:break-all;margin-bottom:.75rem}
+        .copy,.explorer-link{border:none;background:transparent;color:var(--accent);padding:.5rem 0;cursor:pointer;font-size:.9rem;text-decoration:none;display:inline-block;margin-bottom:.5rem}
+        .copy:hover,.explorer-link:hover{text-decoration:underline}
+        .balance-tag{margin-top:.5rem;font-size:.9rem;color:var(--muted)}
+        .eth-balance{margin-top:.5rem;font-size:.9rem;color:var(--muted)}
+        .footer{padding:3rem 0 2rem;border-top:1px solid rgba(255,255,255,.05);text-align:center;color:var(--muted);font-size:.9rem}
+        .footer-logo{display:inline-flex;align-items:center;gap:.5rem;color:var(--text);font-weight:700;font-size:1.25rem;text-decoration:none;margin-bottom:1rem}
+        .footer-logo img{height:40px;width:auto;object-fit:contain}
+        .footer p{margin-bottom:.5rem}
+        .footer-line{height:1px;background:rgba(255,255,255,.08);margin:1.5rem auto;max-width:400px}
+        @media(max-width:768px){
+            .meta{grid-template-columns:repeat(2,1fr)}
+            .buy-card{text-align:center;justify-content:center}
+            .buy-actions{justify-content:center}
+        }
     </style>
 </head>
 <body>
@@ -141,7 +234,7 @@
     <nav class="navbar">
         <div class="container nav-inner">
             <a href="#" class="logo">
-                <img src="./ustd-icon.svg" alt="USTD">
+                <img src="./ustd-icon.png" alt="USTD">
                 <span>USTD</span>
             </a>
             <a href="#comprar" class="btn btn-primary">Comprar USTD</a>
@@ -173,7 +266,7 @@
             <div class="chart-box">
                 <div class="chart-head">
                     <div class="asset-name">
-                        <img src="./ustd-icon.svg" alt="USTD">
+                        <img src="./ustd-icon.png" alt="USTD">
                         <div><strong>USTD</strong><small>Ethereum ERC-20</small></div>
                     </div>
                     <div class="range-btns">
@@ -229,7 +322,7 @@
             <h2>Adicionar USTD à carteira</h2>
             <p class="sub">Adicione o USTD diretamente à sua MetaMask utilizando o contrato oficial do token.</p>
             <div class="buy-card">
-                <img src="./ustd-icon.svg" alt="USTD" class="buy-icon">
+                <img src="./ustd-icon.png" alt="USTD" class="buy-icon">
                 <div class="buy-content">
                     <h3>USTD</h3>
                     <p>Ethereum Mainnet • ERC-20 • 18 decimais</p>
@@ -257,16 +350,16 @@
                     <span class="network-tag">Ethereum</span>
                 </div>
                 <code id="t1">0x4644E1113FE1a6bA831D85cc4772b3D0c23DE655</code>
-                <button class="copy" onclick="copyId('t1')" type="button">Copiar endereço</button>
-                <a class="explorer-link" href="https://etherscan.io/address/0x4644E1113FE1a6bA831D85cc4772b3D0c23DE655" target="_blank" rel="noopener noreferrer">Ver no Etherscan ↗</a>
+                <button class="copy" onclick="copyId('t1')" type="button">📋 Copiar endereço</button>
+                <a class="explorer-link" href="https://etherscan.io/address/0x4644E1113FE1a6bA831D85cc4772b3D0c23DE655" target="_blank" rel="noopener noreferrer">🔗 Ver no Etherscan ↗</a>
             </div>
 
             <div class="card address-card">
                 <span class="address-label">CARTEIRA DE DOMÍNIO</span>
                 <h3>Carteira pública</h3>
                 <code id="t2">0x26Ef6c3AF50240F211E774213914f8DB526fA77d</code>
-                <button class="copy" onclick="copyId('t2')" type="button">Copiar endereço</button>
-                <a class="explorer-link" href="https://etherscan.io/address/0x26Ef6c3AF50240F211E774213914f8DB526fA77d" target="_blank" rel="noopener noreferrer">Ver no Etherscan ↗</a>
+                <button class="copy" onclick="copyId('t2')" type="button">📋 Copiar endereço</button>
+                <a class="explorer-link" href="https://etherscan.io/address/0x26Ef6c3AF50240F211E774213914f8DB526fA77d" target="_blank" rel="noopener noreferrer">🔗 Ver no Etherscan ↗</a>
                 <div class="balance-tag">Saldo informado: <strong>3,489,155 USTD</strong></div>
             </div>
 
@@ -274,9 +367,9 @@
                 <span class="address-label">RESERVA / GARANTIA</span>
                 <h3>Carteira de reserva</h3>
                 <code id="t3">0xB0A27099582833c0Cb8C7A0565759fF145113d64</code>
-                <button class="copy" onclick="copyId('t3')" type="button">Copiar endereço</button>
-                <a class="explorer-link" href="https://etherscan.io/address/0xB0A27099582833c0Cb8C7A0565759fF145113d64" target="_blank" rel="noopener noreferrer">Ver no Etherscan ↗</a>
-                <p class="eth-balance">Saldo ETH: <strong id="bal">Consultando...</strong></p>
+                <button class="copy" onclick="copyId('t3')" type="button">📋 Copiar endereço</button>
+                <a class="explorer-link" href="https://etherscan.io/address/0xB0A27099582833c0Cb8C7A0565759fF145113d64" target="_blank" rel="noopener noreferrer">🔗 Ver no Etherscan ↗</a>
+                <p class="eth-balance">Saldo ETH: <strong id="bal">Verificar no Etherscan</strong></p>
                 <div class="balance-tag">Valor informado: <strong>$40,000,000.00 USDT</strong></div>
             </div>
         </div>
@@ -286,7 +379,7 @@
     <footer class="footer">
         <div class="container">
             <a href="#" class="logo footer-logo">
-                <img src="./ustd-icon.svg" alt="USTD">
+                <img src="./ustd-icon.png" alt="USTD">
                 <span>USTD</span>
             </a>
             <p>USTD — Digital Token on Ethereum</p>
@@ -300,6 +393,67 @@
         document.addEventListener("DOMContentLoaded", () => {
             const year = document.getElementById("currentYear");
             if (year) year.textContent = new Date().getFullYear();
+
+            const CONTRACT_ADDRESS = "0x4644E1113FE1a6bA831D85cc4772b3D0c23DE655";
+            const TOKEN_SYMBOL = "USTD";
+            const TOKEN_DECIMALS = 18;
+            const TOKEN_IMAGE = "./ustd-icon.png";
+
+            const addWalletBtn = document.getElementById("addWalletBtn");
+            const copyContractBtn = document.getElementById("copyContractBtn");
+            const walletStatus = document.getElementById("walletStatus");
+
+            if (addWalletBtn) {
+                addWalletBtn.addEventListener("click", async () => {
+                    walletStatus.textContent = "";
+                    if (typeof window.ethereum === "undefined") {
+                        walletStatus.textContent = "⚠️ MetaMask não encontrada. Abra no navegador da MetaMask.";
+                        return;
+                    }
+                    try {
+                        await window.ethereum.request({ method: "eth_requestAccounts" });
+                        let chainId = await window.ethereum.request({ method: "eth_chainId" });
+                        if (chainId.toLowerCase() !== "0x1") {
+                            try {
+                                await window.ethereum.request({
+                                    method: "wallet_switchEthereumChain",
+                                    params: [{ chainId: "0x1" }]
+                                });
+                            } catch (switchError) {
+                                walletStatus.textContent = "⚠️ Selecione Ethereum Mainnet na carteira e tente novamente.";
+                                return;
+                            }
+                        }
+                        const added = await window.ethereum.request({
+                            method: "wallet_watchAsset",
+                            params: {
+                                type: "ERC20",
+                                options: {
+                                    address: CONTRACT_ADDRESS,
+                                    symbol: TOKEN_SYMBOL,
+                                    decimals: TOKEN_DECIMALS,
+                                    image: TOKEN_IMAGE
+                                }
+                            }
+                        });
+                        walletStatus.textContent = added ? "✅ USTD adicionado à MetaMask com sucesso!" : "⚠️ Adição cancelada.";
+                    } catch (error) {
+                        console.error(error);
+                        walletStatus.textContent = "❌ Erro. Copie o endereço e adicione manualmente.";
+                    }
+                });
+            }
+
+            if (copyContractBtn) {
+                copyContractBtn.addEventListener("click", async () => {
+                    try {
+                        await navigator.clipboard.writeText(CONTRACT_ADDRESS);
+                        const original = copyContractBtn.textContent;
+                        copyContractBtn.textContent = "✓ Copiado!";
+                        setTimeout(() => { copyContractBtn.textContent = original; }, 2000);
+                    } catch (e) { alert(CONTRACT_ADDRESS); }
+                });
+            }
         });
 
         window.copyId = async function(id) {
@@ -310,10 +464,10 @@
                 const btn = el.parentElement.querySelector(".copy");
                 if (btn) {
                     const orig = btn.textContent;
-                    btn.textContent = "Copiado ✓";
-                    setTimeout(() => btn.textContent = orig, 2000);
+                    btn.textContent = "✓ Copiado!";
+                    setTimeout(() => { btn.textContent = orig; }, 2000);
                 }
-            } catch (e) {}
+            } catch (e) { alert(el.textContent.trim()); }
         };
     </script>
 
